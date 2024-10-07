@@ -35,26 +35,31 @@ st.markdown(
 )
 
 st.title("التعرف على الكيانات المسماة (NER) وإكمال الجمل")
-st.subheader("التعرف على الكيانات المسماة" + model_name)
+st.subheader("التعرف على الكيانات المسماة " + model_name)
 
 # Input text for both NER and Sentence Completion
 text = st.text_area("أدخل نصًا لإجراء التعرف على الكيانات وإكمال الجملة:")
 
+# Create columns for buttons
+col1, col2 = st.columns(2)
+
 # Button for Named Entity Recognition
-if st.button("التعرف على الكيانات"):
-    if text:
-        entities = ner_model(text)
-        threshold = 0.8  # Minimum confidence score to show entities
-        st.subheader("الكيانات المعترف بها:")
-        for entity in entities:
-            if entity['score'] >= threshold:
-                st.write(f"{entity['word']}: {entity['entity']} (النسبة: {entity['score']:.4f})")
+with col1:
+    if st.button("التعرف على الكيانات"):
+        if text:
+            entities = ner_model(text)
+            threshold = 0.8  # Minimum confidence score to show entities
+            st.subheader("الكيانات المعترف بها:")
+            for entity in entities:
+                if entity['score'] >= threshold:
+                    st.write(f"{entity['word']}: {entity['entity']} (النسبة: {entity['score']:.4f})")
 
 # Button for Sentence Completion
-if st.button("إكمال الجملة"):
-    if text:
-        input_sentence = text.replace("[MASK]", "<mask>")  # Replace MASK placeholder with the model's expected format
-        completions = sentence_completion_model(input_sentence)
-        st.subheader("إكمال الجمل:")
-        for completion in completions:
-            st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
+with col2:
+    if st.button("إكمال الجملة"):
+        if text:
+            input_sentence = text.replace("[MASK]", "<mask>")  # Replace MASK placeholder with the model's expected format
+            completions = sentence_completion_model(input_sentence)
+            st.subheader("إكمال الجمل:")
+            for completion in completions:
+                st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
