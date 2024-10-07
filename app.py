@@ -2,7 +2,7 @@ import streamlit as st
 from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 
 # Choose a model for Arabic NER
-model_name = "CAMeL-Lab/bert-base-arabic-ner"  # Change to another Arabic NER model
+model_name = "akhooli/arabic-ner"  # Change to another Arabic NER model
 fallback_model = "asafaya/bert-base-arabic"
 
 try:
