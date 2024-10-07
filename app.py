@@ -15,7 +15,7 @@ except Exception as e:
     st.write(f"Falling back to {fallback_model}...")
     # Load fallback model if the primary one fails
     ner_model = pipeline("ner", model=fallback_model)
-    model_name=fallback_model
+    model_name = fallback_model
 
 # Set layout to RTL and use Arabic text
 st.markdown(
@@ -37,25 +37,24 @@ st.markdown(
 st.title("التعرف على الكيانات المسماة (NER) وإكمال الجمل")
 st.subheader("التعرف على الكيانات المسماة" + model_name)
 
-# Input text for NER
-text = st.text_area("أدخل نصًا للتعرف على الكيانات:")
+# Input text for both NER and Sentence Completion
+text = st.text_area("أدخل نصًا لإجراء التعرف على الكيانات وإكمال الجملة:")
 
+# Button for Named Entity Recognition
 if st.button("التعرف على الكيانات"):
     if text:
         entities = ner_model(text)
         threshold = 0.8  # Minimum confidence score to show entities
+        st.subheader("الكيانات المعترف بها:")
         for entity in entities:
             if entity['score'] >= threshold:
                 st.write(f"{entity['word']}: {entity['entity']} (النسبة: {entity['score']:.4f})")
 
-# Load pre-trained Arabic Sentence Completion model
-sentence_completion_model = pipeline("fill-mask", model="asafaya/bert-base-arabic")
-
-st.subheader("إكمال الجمل")
-input_sentence = st.text_area("أدخل جملة تحتوي على [MASK]:")
-
+# Button for Sentence Completion
 if st.button("إكمال الجملة"):
-    if input_sentence:
+    if text:
+        input_sentence = text.replace("[MASK]", "<mask>")  # Replace MASK placeholder with the model's expected format
         completions = sentence_completion_model(input_sentence)
+        st.subheader("إكمال الجمل:")
         for completion in completions:
             st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
