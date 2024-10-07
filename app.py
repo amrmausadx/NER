@@ -56,7 +56,15 @@ with col2:
     if st.button("إكمال الجملة"):
         if text:
             input_sentence = text.replace("[MASK]", "<mask>")  # Replace MASK placeholder with the model's expected format
-            completions = sentence_completion_model(input_sentence)
-            st.subheader("إكمال الجمل:")
-            for completion in completions:
-                st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
+            
+            # Ensure there is exactly one mask token
+            if input_sentence.count("<mask>") != 1:
+                st.error("يجب أن تحتوي الجملة على رمز ماسك واحد فقط (<mask>).")
+            else:
+                try:
+                    completions = sentence_completion_model(input_sentence)
+                    st.subheader("إكمال الجمل:")
+                    for completion in completions:
+                        st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
+                except Exception as e:
+                    st.error(f"خطأ أثناء إكمال الجملة: {e}")
