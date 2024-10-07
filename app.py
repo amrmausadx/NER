@@ -1,17 +1,17 @@
 import streamlit as st
-from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+from transformers import pipeline
+from googletrans import Translator
 
 # Choose a model for Arabic NER
-model_name = "CAMeL-Lab/bert-base-arabic-camelbert-msa-ner"  # Change to another Arabic NER model
+model_name = "CAMeL-Lab/bert-base-arabic-camelbert-msa-ner"
 fallback_model = "asafaya/bert-base-arabic"
 
 try:
-    # Load tokenizer and model explicitly for NER
+    # Load the NER model
     ner_model = pipeline("ner", model=model_name)
 except Exception as e:
     st.error(f"Error loading the NER model: {e}")
     st.write(f"Falling back to {fallback_model}...")
-    # Load fallback model if the primary one fails
     ner_model = pipeline("ner", model=fallback_model)
     model_name = fallback_model
 
@@ -37,8 +37,8 @@ st.subheader("التعرف على الكيانات المسماة " + model_name
 # Input text for both NER and Sentence Completion
 text = st.text_area("أدخل نصًا لإجراء التعرف على الكيانات وإكمال الجملة:")
 
-# Create columns for buttons
-col1, col2 = st.columns(2)
+# Create columns for buttons and translation
+col1, col2, col3 = st.columns(3)
 
 # Button for Named Entity Recognition
 with col1:
@@ -55,7 +55,6 @@ with col1:
 with col2:
     if st.button("إكمال الجملة"):
         if text:
-            # Replace [MASK] with the correct token
             input_sentence = text.replace("[MASK]", "[MASK]")  # Ensure the mask token is correct
             
             # Ensure there is exactly one mask token
@@ -69,3 +68,26 @@ with col2:
                         st.write(f"الخيار: {completion['sequence']} (النسبة: {completion['score']:.4f})")
                 except Exception as e:
                     st.error(f"خطأ أثناء إكمال الجملة: {e}")
+
+# Dropdown for language selection and translation button
+with col3:
+    st.subheader("ترجمة النص")
+    translator = Translator()
+    
+    language_options = {
+        "English": "en",
+        "French": "fr",
+        "Chinese": "zh-cn",
+        "Hebrew": "he"
+    }
+    
+    selected_language = st.selectbox("اختر اللغة:", list(language_options.keys()))
+    
+    if st.button("ترجمة"):
+        if text:
+            target_language = language_options[selected_language]
+            try:
+                translation = translator.translate(text, dest=target_language)
+                st.write(f"الترجمة إلى {selected_language}: {translation.text}")
+            except Exception as e:
+                st.error(f"خطأ أثناء ترجمة النص: {e}")
