@@ -55,11 +55,12 @@ with col1:
 with col2:
     if st.button("إكمال الجملة"):
         if text:
-            input_sentence = text.replace("[MASK]", "<mask>")  # Replace MASK placeholder with the model's expected format
+            # Replace [MASK] with the correct token
+            input_sentence = text.replace("[MASK]", "[MASK]")  # Ensure the mask token is correct
             
             # Ensure there is exactly one mask token
-            if input_sentence.count("<mask>") != 1:
-                st.error("يجب أن تحتوي الجملة على رمز ماسك واحد فقط (<mask>).")
+            if input_sentence.count("[MASK]") != 1:
+                st.error("يجب أن تحتوي الجملة على رمز ماسك واحد فقط ([MASK]).")
             else:
                 try:
                     completions = sentence_completion_model(input_sentence)
