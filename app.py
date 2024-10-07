@@ -124,6 +124,7 @@ with col3:
 
     with lang_col2:
         st.write("")
+        st.write("")
         translate_button = st.button("ترجمة", key="translate_button")
     
     translation_output = st.empty()  # Placeholder for translation output
