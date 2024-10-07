@@ -106,7 +106,6 @@ with col2:
 
 # Dropdown for language selection and translation button in a single row
 with col3:
-    st.subheader("ترجمة النص")
     # Create columns for dropdown and button in the same row
     lang_col1, lang_col2 = st.columns([2, 1])  # Adjust the proportions as needed
     translator = Translator()
@@ -120,7 +119,7 @@ with col3:
 
     with lang_col1:
         # Removed the title and placeholder
-        selected_language = st.selectbox("اختر اللغة", list(language_options.keys()), key="language_select")
+        selected_language = st.selectbox("اختر اللغة لتتم الترجمة لها :", list(language_options.keys()), key="language_select")
 
     with lang_col2:
         st.write("")
