@@ -15,6 +15,7 @@ except Exception as e:
     st.write(f"Falling back to {fallback_model}...")
     # Load fallback model if the primary one fails
     ner_model = pipeline("ner", model=fallback_model)
+    model_name=fallback_model
 
 # Set layout to RTL and use Arabic text
 st.markdown(
