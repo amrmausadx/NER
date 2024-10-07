@@ -120,9 +120,10 @@ with col3:
 
     with lang_col1:
         # Removed the title and placeholder
-        selected_language = st.selectbox("", list(language_options.keys()), key="language_select")
+        selected_language = st.selectbox("اختر اللغة", list(language_options.keys()), key="language_select")
 
     with lang_col2:
+        st.write("")
         translate_button = st.button("ترجمة", key="translate_button")
     
     translation_output = st.empty()  # Placeholder for translation output
