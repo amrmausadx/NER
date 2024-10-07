@@ -2,14 +2,14 @@ import streamlit as st
 from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 
 # Choose a model for Arabic NER
-model_name = "akhooli/arabic-ner"  # Change to another Arabic NER model
+model_name = "CAMeL-Lab/bert-base-arabic-camelbert-msa-ner"  # Change to another Arabic NER model
 fallback_model = "asafaya/bert-base-arabic"
 
 try:
     # Load tokenizer and model explicitly for NER
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForTokenClassification.from_pretrained(model_name)
-    ner_model = pipeline("ner", model=model, tokenizer=tokenizer)
+    #tokenizer = AutoTokenizer.from_pretrained(model_name)
+    #model = AutoModelForTokenClassification.from_pretrained(model_name)
+    ner_model = pipeline("ner", model=model_name)#, tokenizer=tokenizer)
 except Exception as e:
     st.error(f"Error loading the model: {e}")
     st.write(f"Falling back to {fallback_model}...")
