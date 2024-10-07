@@ -104,8 +104,9 @@ with col2:
                 except Exception as e:
                     st.error(f"خطأ أثناء إكمال الجملة: {e}")
 
-# Dropdown for language selection and translation button
+# Dropdown for language selection and translation button in a single row
 with col3:
+    st.subheader("ترجمة النص")
     translator = Translator()
     
     language_options = {
@@ -115,16 +116,20 @@ with col3:
         "Hebrew": "he"
     }
     
-    selected_language = st.selectbox("اختر اللغة:", list(language_options.keys()))
+    selected_language = st.selectbox("اختر اللغة:", list(language_options.keys()), key="language_select")
     
-    if st.button("ترجمة", key="translate_button"):
+    translate_button = st.button("ترجمة", key="translate_button")
+    
+    translation_output = st.empty()  # Placeholder for translation output
+    
+    if translate_button:
         if text:
             target_language = language_options[selected_language]
             try:
                 translation = translator.translate(text, dest=target_language)
-                st.write(f"الترجمة إلى {selected_language}: **{translation.text}**")
+                translation_output.markdown(f"الترجمة إلى {selected_language}: **{translation.text}**")
             except Exception as e:
-                st.error(f"خطأ أثناء ترجمة النص: {e}")
+                translation_output.error(f"خطأ أثناء ترجمة النص: {e}")
 
 # Add some spacing between sections
 st.markdown("<br>", unsafe_allow_html=True)
