@@ -1,10 +1,20 @@
 import streamlit as st
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
 
-# Load a more advanced Arabic NER model
-mod="asafaya/bert-base-arabic"
-mod="Davlan/xlm-roberta-large-ner-hrl"
-ner_model = pipeline("ner", model=mod)
+# Choose a model for Arabic NER
+model_name = "Davlan/xlm-roberta-large-ner-hrl"
+fallback_model = "asafaya/bert-base-arabic"
+
+try:
+    # Load tokenizer and model explicitly for NER
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForTokenClassification.from_pretrained(model_name)
+    ner_model = pipeline("ner", model=model, tokenizer=tokenizer)
+except Exception as e:
+    st.error(f"Error loading the model: {e}")
+    st.write(f"Falling back to {fallback_model}...")
+    # Load fallback model if the primary one fails
+    ner_model = pipeline("ner", model=fallback_model)
 
 # Set layout to RTL and use Arabic text
 st.markdown(
@@ -24,7 +34,7 @@ st.markdown(
 )
 
 st.title("التعرف على الكيانات المسماة (NER) وإكمال الجمل")
-st.subheader("التعرف على الكيانات المسماة"+mod)
+st.subheader("التعرف على الكيانات المسماة" + model_name)
 
 # Input text for NER
 text = st.text_area("أدخل نصًا للتعرف على الكيانات:")
