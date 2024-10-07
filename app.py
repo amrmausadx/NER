@@ -117,8 +117,7 @@ with col3:
         "Hebrew": "he"
     }
     with col31:
-         st.write("اختر اللغة:")
-        
+         st.write("اللغة:")        
     with col32:
         selected_language = st.selectbox("", list(language_options.keys()), key="language_select")
     with col33:   
