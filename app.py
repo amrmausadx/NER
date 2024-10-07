@@ -25,10 +25,6 @@ st.markdown(
         direction: rtl !important;
         text-align: right !important;
     }
-    .css-1d391kg {
-        direction: rtl !important;
-        text-align: right !important;
-    }
     </style>
     """,
     unsafe_allow_html=True
