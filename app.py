@@ -2,7 +2,9 @@ import streamlit as st
 from transformers import pipeline
 
 # Load a more advanced Arabic NER model
-ner_model = pipeline("ner", model="asafaya/bert-base-arabic")#"Davlan/xlm-roberta-large-ner-hrl")
+mod="asafaya/bert-base-arabic"
+#mod="Davlan/xlm-roberta-large-ner-hrl"
+ner_model = pipeline("ner", model=mod)
 
 # Set layout to RTL and use Arabic text
 st.markdown(
@@ -22,7 +24,7 @@ st.markdown(
 )
 
 st.title("التعرف على الكيانات المسماة (NER) وإكمال الجمل")
-st.subheader("التعرف على الكيانات المسماة")
+st.subheader("التعرف على الكيانات المسماة"+mod)
 
 # Input text for NER
 text = st.text_area("أدخل نصًا للتعرف على الكيانات:")
