@@ -3,7 +3,7 @@ from transformers import pipeline
 
 # Load a more advanced Arabic NER model
 mod="asafaya/bert-base-arabic"
-#mod="Davlan/xlm-roberta-large-ner-hrl"
+mod="Davlan/xlm-roberta-large-ner-hrl"
 ner_model = pipeline("ner", model=mod)
 
 # Set layout to RTL and use Arabic text
