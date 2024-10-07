@@ -118,9 +118,9 @@ with col3:
         "Hebrew": "he"
     }
     with col32:
-        selected_language = st.selectbox("", list(language_options.keys()), key="language_select")
-    with col33:   
         translate_button = st.button("ترجمة", key="translate_button")
+    with col33:   
+        selected_language = st.selectbox("", list(language_options.keys()), key="language_select")
     translation_output = st.empty()  # Placeholder for translation output
     
     if translate_button:
