@@ -117,8 +117,6 @@ with col3:
         "Chinese": "zh-cn",
         "Hebrew": "he"
     }
-    with col31:
-        pass        
     with col32:
         selected_language = st.selectbox("", list(language_options.keys()), key="language_select")
     with col33:   
