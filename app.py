@@ -107,7 +107,8 @@ with col2:
 # Dropdown for language selection and translation button in a single row
 with col3:
     st.subheader("ترجمة النص")
-    col31, col32,col33 = st.columns(3)
+    #col31, 
+    col32,col33 = st.columns(2)
     translator = Translator()
     
     language_options = {
