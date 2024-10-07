@@ -7,15 +7,16 @@ fallback_model = "asafaya/bert-base-arabic"
 
 try:
     # Load tokenizer and model explicitly for NER
-    #tokenizer = AutoTokenizer.from_pretrained(model_name)
-    #model = AutoModelForTokenClassification.from_pretrained(model_name)
-    ner_model = pipeline("ner", model=model_name)#, tokenizer=tokenizer)
+    ner_model = pipeline("ner", model=model_name)
 except Exception as e:
-    st.error(f"Error loading the model: {e}")
+    st.error(f"Error loading the NER model: {e}")
     st.write(f"Falling back to {fallback_model}...")
     # Load fallback model if the primary one fails
     ner_model = pipeline("ner", model=fallback_model)
     model_name = fallback_model
+
+# Load pre-trained Arabic Sentence Completion model
+sentence_completion_model = pipeline("fill-mask", model="asafaya/bert-base-arabic")
 
 # Set layout to RTL and use Arabic text
 st.markdown(
